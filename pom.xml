@@ -42,13 +42,14 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.forge.addon</groupId>
-      <artifactId>core</artifactId>
+      <artifactId>projects</artifactId>
       <classifier>forge-addon</classifier>
     </dependency>
     <dependency>
       <groupId>org.jboss.forge.addon</groupId>
-      <artifactId>projects</artifactId>
+      <artifactId>maven</artifactId>
       <classifier>forge-addon</classifier>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.forge.addon</groupId>
