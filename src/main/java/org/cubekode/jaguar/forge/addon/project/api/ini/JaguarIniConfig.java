@@ -1,4 +1,4 @@
-package org.cubekode.jaguar.forge.addon.api.ini;
+package org.cubekode.jaguar.forge.addon.project.api.ini;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class JaguarIniConfig
       }
       if (this.packageName == null || this.packageName.isEmpty())
       {
-         this.packageName = groupId + "." + artifactId;
+         this.packageName = groupId.endsWith(artifactId) ? groupId : groupId + "." + artifactId;
       }
       if (this.jaguarVersion == null || this.jaguarVersion.isEmpty())
       {
@@ -66,7 +66,7 @@ public class JaguarIniConfig
       return this;
    }
 
-   public String token(String key)
+   public String getToken(String key)
    {
       return tokens.get(key);
    }
@@ -74,51 +74,51 @@ public class JaguarIniConfig
    /**
     * Replace tokens in this weird format (###TOKEN_KEY###) on ini template files.
     */
-   public JaguarIniConfig token(String key, String value)
+   public JaguarIniConfig setToken(String key, String value)
    {
       this.tokens.put(key, value);
       return this;
    }
 
-   public JaguarIniConfig groupId(String groupId)
+   public JaguarIniConfig setGroupId(String groupId)
    {
       this.groupId = groupId;
       return this;
    }
 
-   public JaguarIniConfig artifactId(String artifactId)
+   public JaguarIniConfig setArtifactId(String artifactId)
    {
       this.artifactId = artifactId;
       return this;
    }
 
-   public JaguarIniConfig version(String version)
+   public JaguarIniConfig setVersion(String version)
    {
       this.version = version;
       return this;
    }
 
-   public JaguarIniConfig jaguarVersion(String jaguarVersion)
+   public JaguarIniConfig setJaguarVersion(String jaguarVersion)
    {
       this.jaguarVersion = jaguarVersion;
       return this;
    }
 
-   public JaguarIniConfig projectAcronymn(String projectAcronymn)
+   public JaguarIniConfig setProjectAcronymn(String projectAcronymn)
    {
       this.projectAcronymn = projectAcronymn;
       return this;
    }
 
-   public JaguarIniConfig packageName(String packageName)
+   public JaguarIniConfig setPackageName(String packageName)
    {
       this.packageName = packageName;
       return this;
    }
 
-   public JaguarIniConfig tokens(Map<String, String> tokens)
+   public JaguarIniConfig setTokens(Map<String, String> tokens)
    {
-      this.tokens = tokens;
+      this.tokens = new HashMap<>(tokens);
       return this;
    }
 

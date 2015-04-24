@@ -1,10 +1,10 @@
-package org.cubekode.jaguar.forge.addon.impl;
+package org.cubekode.jaguar.forge.addon.project.impl;
 
 import java.io.IOException;
 
-import org.cubekode.jaguar.forge.addon.api.JaguarFacet;
-import org.cubekode.jaguar.forge.addon.api.ini.JaguarIniConfig;
-import org.cubekode.jaguar.forge.addon.impl.ini.JaguarIniInstaller;
+import org.cubekode.jaguar.forge.addon.project.api.JaguarFacet;
+import org.cubekode.jaguar.forge.addon.project.api.ini.JaguarIniConfig;
+import org.cubekode.jaguar.forge.addon.project.impl.ini.JaguarIniInstaller;
 import org.jboss.forge.addon.facets.AbstractFacet;
 import org.jboss.forge.addon.projects.Project;
 import org.jboss.forge.addon.resource.DirectoryResource;

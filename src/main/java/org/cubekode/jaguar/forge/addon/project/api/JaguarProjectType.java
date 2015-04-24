@@ -1,8 +1,8 @@
-package org.cubekode.jaguar.forge.addon.api;
+package org.cubekode.jaguar.forge.addon.project.api;
 
 import java.util.Collections;
 
-import org.cubekode.jaguar.forge.addon.api.wizard.JaguarProjectWizardStep;
+import org.cubekode.jaguar.forge.addon.project.api.wizard.JaguarProjectWizardStep;
 import org.jboss.forge.addon.projects.AbstractProjectType;
 import org.jboss.forge.addon.projects.ProjectFacet;
 import org.jboss.forge.addon.ui.wizard.UIWizardStep;
@@ -12,7 +12,7 @@ public class JaguarProjectType extends AbstractProjectType
    @Override
    public String getType()
    {
-      return "Jaguar Project (WAR)";
+      return "Jaguar Project";
    }
 
    @Override
@@ -30,7 +30,7 @@ public class JaguarProjectType extends AbstractProjectType
    @Override
    public int priority()
    {
-      return 0;
+      return 1;
    }
 
    @Override

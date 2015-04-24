@@ -1,23 +1,18 @@
 == jaguar-forge-addon
 :idprefix: id_ 
-(choose one, do not modify, then add a second sentence with a brief description, starting with - "The jaguar-forge-addon addon enables blah blah...)
-This addon provides *standalone* functionality, and *exports services* for use in other addons. 
-This addon provides *standalone* functionality.
-This addon *exports services* for use in other addons. 
-This addon *provides classes* for use in other addons. 
-This addon is a 'Furnace container' that provides *lifecycle* and *service registry* support for dependent addons.
-        
-=== Dependencies: None (or)
+
+The jaguar-forge-addon enables developers to generate Java projects that use the Jaguar Framework (http://www.powerlogic.org/).
+
+This addon provides *standalone* functionality, and it can be re-used in other addons.
+
+=== Dependencies:
 === Depends on
 [options="header"]
 |===
-|Addon |Exported |Optional
-|DEP1
-|yes
-|no
-|DEP2
-|yes
-|yes
+|Addon    |Exported |Optional
+|cdi      |no       |no
+|maven    |no       |no
+|projects |no       |no
 |===
 
 == Setup
@@ -37,29 +32,63 @@ To use this addon, you must add it as a dependency in the *pom.xml* of your `for
    <version>${version}</version>
 </dependency>
 ----
+
 == Features
-ABCFactory for simple ABC blah:: 
-Allows for blah blah
-+
-[source,java]
+* Generate Jaguar project, based on INI Zip Templates.
+
+== Usage
+
+=== Prerequsites
+
+JBoss Tools with Forge 2.4.1, or JBoss Forge-CLI 2.4.1.
+
+=== Install the addon:
+
+Assuming JBoss Tools with Forge, or Forge-CLI is installed:
+
+*(JBT)*
+
+Ctrl+4. Run the "Install the addon from Git" command, using these coordinates: https://github.com/adolfojunior/jaguar-forge-addon.git
+
+*(Forge-CLI)*
+
 ----
-@Inject private ABCFactory factory;
-ABC abc = factory.createABC();
+$ addon-install-from-git --url https://github.com/adolfojunior/jaguar-forge-addon.git
 ----
-+
-[TIP] 
-====
-If your addon uses a container that does not support "@Inject" annotations, services such as the `ABCFactory` may also be 
-accessed via the `AddonRegistry`:
+
+=== Create a new project
+
+*(JBT)*
+
+Ctrl+4. Run the "Project: New" command. Create a new jaguar web application, named 'jaguarapp', type "Jaguar Project".
+
+*(Forge-CLI)*
+
 ----
-Imported<ABCFactory> imported = addonRegistry.getServices(ABCFactory.class);
-ABCFactory factory = imported.get();
+$ project-new --named jaguarapp --type jaguar --topLevelPackage org.jaguar.sampleapp
 ----
-==== 
-Creating a new XYZ instance:: 
-Causes XYZ to occur
-+
-[source,java]
-----
-XYZ xyz = factory.createXYZ();
-----
+
+The addon will request the INI Project type as below:
+
+[0] ( ) jcompany_ini_extension
+[1] ( ) jcompany_ini_facelets_bridge
+[2] ( ) jcompany_ini_facelets_cdi
+[3] ( ) jcompany_ini_facelets_cdi_bridge
+[4] ( ) jcompany_ini_facelets_cdi_bridge_simple
+[5] ( ) jcompany_ini_facelets_cdi_jboss
+[6] ( ) jcompany_ini_facelets_cdi_modulo
+[7] ( ) jcompany_ini_facelets_cdi_modulo_simple
+[8] ( ) jcompany_ini_facelets_cdi_prime
+[9] ( ) jcompany_ini_facelets_cdi_rich
+[10] ( ) jcompany_ini_facelets_cdi_simple
+[11] ( ) jcompany_ini_facelets_modulo_cdi
+[12] ( ) jcompany_ini_facelets_modulo_cdi_simple
+[13] ( ) jcompany_ini_jaguar_archetype
+[14] ( ) jcompany_ini_modulo_negocio
+[15] ( ) jcompany_ini_modulo_servico
+
+After chose the INI type, the addon will list the available Jaguar versions in Powerlogic Repository. Choose wisely!
+
+== Future Commands
+
+Scaffold is comming soon!

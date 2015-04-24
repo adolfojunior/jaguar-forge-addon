@@ -1,4 +1,4 @@
-package org.cubekode.jaguar.forge.addon.api.wizard;
+package org.cubekode.jaguar.forge.addon.project.api.wizard;
 
 import org.jboss.forge.addon.ui.wizard.UIWizardStep;
 

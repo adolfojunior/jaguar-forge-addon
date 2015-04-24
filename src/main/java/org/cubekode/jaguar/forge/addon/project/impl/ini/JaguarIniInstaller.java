@@ -1,6 +1,5 @@
-package org.cubekode.jaguar.forge.addon.impl.ini;
+package org.cubekode.jaguar.forge.addon.project.impl.ini;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,9 +13,10 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import org.cubekode.jaguar.forge.addon.api.ini.JaguarIniConfig;
+import org.cubekode.jaguar.forge.addon.project.api.ini.JaguarIniConfig;
 import org.jboss.forge.addon.resource.DirectoryResource;
 import org.jboss.forge.addon.resource.FileResource;
+import org.jboss.forge.addon.resource.Resource;
 import org.jboss.forge.furnace.util.Streams;
 
 public class JaguarIniInstaller
@@ -50,7 +50,7 @@ public class JaguarIniInstaller
             // jCompany QA, i think that was forgotten there...
             "jcqa"
             ));
-   
+
    private static final String PROJECT_PARENT = "projetoplc_parent";
 
    private JaguarIniConfig config;
@@ -65,27 +65,26 @@ public class JaguarIniInstaller
       // overlay config
       config = new JaguarIniConfig(config);
       // main tokens
-      config.token(JAGUAR_TK_SIGLA_PROJETO, config.getProjectAcronymn());
-      config.token(JAGUAR_TK_NOME_PROJETO, config.getArtifactId());
-      config.token(JAGUAR_TK_NOME_PROJETO_PRINCIPAL, config.getArtifactId());
-      config.token(JAGUAR_TK_NOME_PACOTE, config.getPackageName());
+      config.setToken(JAGUAR_TK_SIGLA_PROJETO, config.getProjectAcronymn());
+      config.setToken(JAGUAR_TK_NOME_PROJETO, config.getArtifactId());
+      config.setToken(JAGUAR_TK_NOME_PROJETO_PRINCIPAL, config.getArtifactId());
+      config.setToken(JAGUAR_TK_NOME_PACOTE, config.getPackageName());
       // embedded database tokens?
-      config.token(JAGUAR_TK_USUARIO, config.getProjectAcronymn().toLowerCase());
-      config.token(JAGUAR_TK_SENHA, config.getProjectAcronymn().toLowerCase());
-      config.token(JAGUAR_TK_SID, config.getProjectAcronymn().toUpperCase());
-      config.token(JAGUAR_TK_NOME_DO_ESQUEMA, config.getProjectAcronymn().toUpperCase());
+      config.setToken(JAGUAR_TK_USUARIO, config.getProjectAcronymn().toLowerCase());
+      config.setToken(JAGUAR_TK_SENHA, config.getProjectAcronymn().toLowerCase());
+      config.setToken(JAGUAR_TK_SID, config.getProjectAcronymn().toUpperCase());
+      config.setToken(JAGUAR_TK_NOME_DO_ESQUEMA, config.getProjectAcronymn().toUpperCase());
       // TODO The framework version MUST be in INI, but ok.
-      config.token(JAGUAR_TK_VERSAO_JCOMPANY, config.getJaguarVersion());
+      config.setToken(JAGUAR_TK_VERSAO_JCOMPANY, config.getJaguarVersion());
       // process
       installRoot(outputDir);
    }
 
    protected void installRoot(DirectoryResource outputDir) throws IOException
    {
-      // TODO Is necessary remove all resources created by MavenBuildSystems
       outputDir.delete(true);
       outputDir.mkdirs();
-      
+
       info("Creating Jaguar Project(%s) groupId: %s, artifactId: %s, version: %s in directory: %s", config.getJaguarVersion(), config.getGroupId(), config.getArtifactId(), config.getVersion(), outputDir);
 
       try (ZipInputStream zip = new ZipInputStream(config.getIniFile().getResourceInputStream()))
@@ -116,25 +115,28 @@ public class JaguarIniInstaller
 
          throw new IOException(e.getMessage(), e);
       }
-      
-      // TODO move context.xml
-      
+
       // TODO rename to parent.
       if (isProjectParent(outputDir))
       {
-         outputDir.renameTo(config.getArtifactId() + "_parent");
-         moveTomcatContext(outputDir.getChildDirectory(config.getArtifactId()));
+         // rename project to project_target
+         outputDir.renameTo(outputDir.getParent().getChild(config.getArtifactId() + "_parent").reify(FileResource.class));
+         
+         copyTomcatContext(outputDir.getChildDirectory(config.getArtifactId()));
       }
       else
       {
-         moveTomcatContext(outputDir);
+         copyTomcatContext(outputDir);
       }
    }
 
-   private void moveTomcatContext(DirectoryResource childDirectory)
+   private void copyTomcatContext(DirectoryResource dir)
    {
-      // TODO Auto-generated method stub
-      
+      Resource<?> contextXml = dir.getChild("context.xml");
+      if (contextXml != null)
+      {
+         dir.getChild("src/main/" + config.getArtifactId() + ".xml").reify(FileResource.class).setContents(contextXml.getContents());
+      }
    }
 
    private boolean isProjectParent(DirectoryResource outputDir)
@@ -142,11 +144,9 @@ public class JaguarIniInstaller
       return outputDir.getChildDirectory(config.getArtifactId()) != null && outputDir.getChildDirectory(config.getArtifactId() + "_commons") != null;
    }
 
-   protected void installFile(DirectoryResource outputDir, String filePath, InputStream fileIn) throws UnsupportedEncodingException, IOException, FileNotFoundException
+   protected void installFile(DirectoryResource outputDir, String filePath, InputStream fileInputStream) throws UnsupportedEncodingException, IOException, FileNotFoundException
    {
       String path = parsePath(filePath);
-
-      debug("Processing resource: %s", path);
 
       FileResource<?> file = outputDir.getChild(path).reify(FileResource.class);
 
@@ -158,14 +158,12 @@ public class JaguarIniInstaller
       {
          if (isParseableFile(file.getName()))
          {
-            // parse
-            String fileContent = parseText(Streams.toString(fileIn));
-            //
-            Streams.write(new ByteArrayInputStream(fileContent.getBytes()), out);
+            file.setContents(parseText(Streams.toString(fileInputStream)));
          }
          else
          {
-            Streams.write(fileIn, out);
+            // TODO file.setContents close inputStream.. this is ok?
+            Streams.write(fileInputStream, out);
          }
       }
    }
@@ -207,7 +205,7 @@ public class JaguarIniInstaller
       {
          result.append(text.substring(pos, matcher.start()));
 
-         String value = config.token(matcher.group(1));
+         String value = config.getToken(matcher.group(1));
 
          if (value != null)
          {
@@ -238,10 +236,5 @@ public class JaguarIniInstaller
       {
          System.out.println(s);
       }
-   }
-
-   private void debug(String s, Object... args)
-   {
-      info(s, args);
    }
 }
