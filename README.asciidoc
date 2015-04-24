@@ -70,22 +70,22 @@ $ project-new --named jaguarapp --type jaguar --topLevelPackage org.jaguar.sampl
 
 The addon will request the INI Project type as below:
 
-[0] ( ) jcompany_ini_extension
-[1] ( ) jcompany_ini_facelets_bridge
-[2] ( ) jcompany_ini_facelets_cdi
-[3] ( ) jcompany_ini_facelets_cdi_bridge
-[4] ( ) jcompany_ini_facelets_cdi_bridge_simple
-[5] ( ) jcompany_ini_facelets_cdi_jboss
-[6] ( ) jcompany_ini_facelets_cdi_modulo
-[7] ( ) jcompany_ini_facelets_cdi_modulo_simple
-[8] ( ) jcompany_ini_facelets_cdi_prime
-[9] ( ) jcompany_ini_facelets_cdi_rich
-[10] ( ) jcompany_ini_facelets_cdi_simple
-[11] ( ) jcompany_ini_facelets_modulo_cdi
-[12] ( ) jcompany_ini_facelets_modulo_cdi_simple
-[13] ( ) jcompany_ini_jaguar_archetype
-[14] ( ) jcompany_ini_modulo_negocio
-[15] ( ) jcompany_ini_modulo_servico
+* jcompany_ini_extension
+* jcompany_ini_facelets_bridge
+* jcompany_ini_facelets_cdi
+* jcompany_ini_facelets_cdi_bridge
+* jcompany_ini_facelets_cdi_bridge_simple
+* jcompany_ini_facelets_cdi_jboss
+* jcompany_ini_facelets_cdi_modulo
+* jcompany_ini_facelets_cdi_modulo_simple
+* jcompany_ini_facelets_cdi_prime
+* jcompany_ini_facelets_cdi_rich
+* jcompany_ini_facelets_cdi_simple
+* jcompany_ini_facelets_modulo_cdi
+* jcompany_ini_facelets_modulo_cdi_simple
+* jcompany_ini_jaguar_archetype
+* jcompany_ini_modulo_negocio
+* jcompany_ini_modulo_servico
 
 After chose the INI type, the addon will list the available Jaguar versions in Powerlogic Repository. Choose wisely!
 
