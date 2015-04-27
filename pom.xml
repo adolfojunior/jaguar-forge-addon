@@ -6,15 +6,16 @@
 	<groupId>org.cubekode.jaguar.forge.addon</groupId>
 	<artifactId>jaguar-forge-addon</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<version.furnace>2.16.0.Final</version.furnace>
 		<version.forge>2.16.0.Final</version.forge>
+		<version.handlebars>2.0.0</version.handlebars>
 	</properties>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -48,6 +49,13 @@
 			<groupId>org.jboss.forge.addon</groupId>
 			<artifactId>ui</artifactId>
 			<classifier>forge-addon</classifier>
+		</dependency>
+
+		<!-- mustache implementation for template engine -->
+		<dependency>
+			<groupId>com.github.jknack</groupId>
+			<artifactId>handlebars</artifactId>
+			<version>${version.handlebars}</version>
 		</dependency>
 
 		<!-- For test -->

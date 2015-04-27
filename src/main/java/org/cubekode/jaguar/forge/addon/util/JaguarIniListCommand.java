@@ -1,4 +1,4 @@
-package org.cubekode.jaguar.forge.addon.commands;
+package org.cubekode.jaguar.forge.addon.util;
 
 import java.util.List;
 
