@@ -1,84 +1,74 @@
 package org.cubekode.jaguar.forge.addon.template;
 
+import java.io.CharArrayWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
-import com.github.jknack.handlebars.io.TemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 public class TemplateProcessor
 {
+   private static final int OUT_INITIAL_SIZE = 4096;
+
    private static final String RESOURCE_PREFIX = "/jaguar-resources/";
 
-   public static class HelperSource
-   {
-      public static String upper(String str)
-      {
-         if (str != null && !str.isEmpty())
-         {
-            return str.toUpperCase();
-         }
-         return str;
-      }
-
-      public static String lower(String str)
-      {
-         if (str != null && !str.isEmpty())
-         {
-            return str.toLowerCase();
-         }
-         return str;
-      }
-
-      public static String capitalize(String str)
-      {
-         if (str != null && !str.isEmpty())
-         {
-            return Character.toUpperCase(str.charAt(0)) + str.substring(1);
-         }
-         return str;
-      }
-   }
-
-   private Handlebars handlebars;
+   private Configuration freemarker;
 
    public TemplateProcessor()
    {
-      TemplateLoader templateLoader = new ClassPathTemplateLoader();
-      templateLoader.setPrefix(RESOURCE_PREFIX);
-      templateLoader.setSuffix(null);
-
-      handlebars = new Handlebars(templateLoader);
-      handlebars.registerHelpers(HelperSource.class);
-   }
-
-   protected Handlebars getHandlebars()
-   {
-      return handlebars;
+      freemarker = new Configuration();
+      freemarker.setClassForTemplateLoading(getClass(), RESOURCE_PREFIX);
    }
 
    public String process(String resource, Object scope)
    {
+      CharArrayWriter out = createCharWriter();
+      process(resource, scope, out);
+      return out.toString();
+   }
+
+   protected Template getTemplate(String name) throws IOException
+   {
+      return freemarker.getTemplate(name);
+   }
+
+   protected void process(String resource, Object scope, Writer out)
+   {
       try
       {
-         return getHandlebars().compile(resource).apply(scope);
+         getTemplate(resource).process(scope, out);
+         out.flush();
       }
-      catch (IOException e)
+      catch (TemplateException templateException)
       {
-         return null;
+         throw new RuntimeException(templateException);
       }
+      catch (IOException ioException)
+      {
+         throw new RuntimeException(ioException);
+      }
+   }
+
+   private CharArrayWriter createCharWriter()
+   {
+      return new CharArrayWriter(OUT_INITIAL_SIZE);
    }
 
    public static void main(String[] args)
    {
       Map<String, String> scope = new HashMap<>();
 
-      scope.put("name", "Controle");
+      scope.put("ucDir", "controle");
+      scope.put("ucName", "controle");
+      scope.put("ucClassName", "ControleMB");
       scope.put("topLevelPackage", "org.teste");
 
       TemplateProcessor templateProcessor = new TemplateProcessor();
+      
       System.out.println(templateProcessor.process("uc/controller/MB.java", scope));
    }
 }

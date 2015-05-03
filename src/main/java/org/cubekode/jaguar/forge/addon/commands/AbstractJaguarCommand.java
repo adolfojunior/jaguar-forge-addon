@@ -1,4 +1,4 @@
-package org.cubekode.jaguar.forge.addon.usecase;
+package org.cubekode.jaguar.forge.addon.commands;
 
 import javax.inject.Inject;
 
@@ -12,7 +12,7 @@ import org.jboss.forge.addon.ui.util.Categories;
 import org.jboss.forge.addon.ui.util.Metadata;
 
 @FacetConstraint({ JaguarFacet.class })
-public abstract class AbstractUseCaseCommand extends AbstractProjectCommand
+public abstract class AbstractJaguarCommand extends AbstractProjectCommand
 {
    @Inject
    private ProjectFactory projectFactory;

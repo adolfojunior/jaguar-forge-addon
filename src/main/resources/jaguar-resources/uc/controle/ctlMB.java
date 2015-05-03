@@ -1,8 +1,8 @@
-package {{topLevelPackage}}.controller.jsf.{{lower name}};
+package ${topLevelPackage}.controller.jsf.${ucName};
 
 import javax.annotation.PostConstruct;
 
-import {{topLevelPackage}}.controller.jsf.AppMB;
+import ${topLevelPackage}.controller.jsf.AppMB;
 
 import com.powerlogic.jcompany.commons.annotation.PlcUriIoC;
 import com.powerlogic.jcompany.commons.config.stereotypes.SPlcMB;
@@ -16,12 +16,12 @@ import com.powerlogic.jcompany.controller.jsf.annotations.PlcHandleException;
    /* Jaguar Use Case Stereotype */
    formPattern = FormPattern.Ctl,
    /* Jaguar Use Case pages location */
-   formLayout = @PlcConfigFormLayout(dirBase = "/WEB-INF/fcls/{{lower name}}")
+   formLayout = @PlcConfigFormLayout(dirBase = "/WEB-INF/fcls/${ucDir}")
 )
 @SPlcMB
-@PlcUriIoC("{{lower name}}")
+@PlcUriIoC("${ucName}")
 @PlcHandleException
-public class {{capitalize name}}MB extends AppMB {
+public class ${ucClassName} extends AppMB {
 
    private static final long serialVersionUID = 1L;
 

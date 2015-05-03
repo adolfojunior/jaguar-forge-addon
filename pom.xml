@@ -47,15 +47,13 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.forge.addon</groupId>
-			<artifactId>ui</artifactId>
+			<artifactId>templates</artifactId>
 			<classifier>forge-addon</classifier>
 		</dependency>
-
-		<!-- mustache implementation for template engine -->
 		<dependency>
-			<groupId>com.github.jknack</groupId>
-			<artifactId>handlebars</artifactId>
-			<version>${version.handlebars}</version>
+			<groupId>org.jboss.forge.addon</groupId>
+			<artifactId>ui</artifactId>
+			<classifier>forge-addon</classifier>
 		</dependency>
 
 		<!-- For test -->

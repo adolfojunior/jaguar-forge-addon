@@ -1,4 +1,4 @@
-package org.cubekode.jaguar.forge.addon.usecase;
+package org.cubekode.jaguar.forge.addon.commands.usecases;
 
 import javax.inject.Inject;
 
@@ -8,7 +8,7 @@ import org.jboss.forge.addon.ui.input.UIInput;
 import org.jboss.forge.addon.ui.metadata.WithAttributes;
 import org.jboss.forge.addon.ui.result.Result;
 
-public class JaguarUseCaseControllerCommand extends AbstractUseCaseCommand
+public class JaguarUseCaseControllerCommand extends AbstractJaguarCommand
 {
    static final String COMMAND_NAME = "jaguar-uc-controller";
 
